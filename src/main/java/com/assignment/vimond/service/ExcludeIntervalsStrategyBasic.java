@@ -15,7 +15,9 @@ public class ExcludeIntervalsStrategyBasic implements ExcludeIntervalsStrategy{
         List<Interval> result = new ArrayList<>();
 
         if (includes == null || includes.isEmpty()) return result;
-        if (excludes == null || excludes.isEmpty()) return includes;
+        if (excludes == null){
+            excludes = new ArrayList<>();
+        }
 
         Collections.sort(includes, new SortByStartValueComparator());
         Collections.sort(excludes, new SortByStartValueComparator());

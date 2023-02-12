@@ -221,5 +221,90 @@ public class IntervalServiceImplTest {
         Assert.assertEquals(expected.get(0).getEndValue(), actual.get(0).getEndValue());
     }
 
+    @Test
+    void removeExcludeIntervals_testCaseGivenWithAssignment_01() {
+        includes.add(new Interval(10, 100));
+        excludes.add(new Interval(20, 30));
 
+        List<Interval> actual = intervalService.removeExcludeIntervals(includes, excludes);
+
+        List<Interval> expected = new ArrayList<>();
+        expected.add(new Interval(10, 19));
+        expected.add(new Interval(31, 100));
+
+        Assert.assertEquals(expected.size(), actual.size());
+        Assert.assertEquals(expected.get(0).getStartValue(), actual.get(0).getStartValue());
+        Assert.assertEquals(expected.get(0).getEndValue(), actual.get(0).getEndValue());
+    }
+
+    @Test
+    void removeExcludeIntervals_testCaseGivenWithAssignment_02_01() {
+        includes.add(new Interval(50, 5000));
+        includes.add(new Interval(10, 100));
+
+        List<Interval> actual = intervalService.removeExcludeIntervals(includes, null);
+
+        List<Interval> expected = new ArrayList<>();
+        expected.add(new Interval(10, 5000));
+
+        Assert.assertEquals(expected.size(), actual.size());
+        Assert.assertEquals(expected.get(0).getStartValue(), actual.get(0).getStartValue());
+        Assert.assertEquals(expected.get(0).getEndValue(), actual.get(0).getEndValue());
+    }
+
+    @Test
+    void removeExcludeIntervals_testCaseGivenWithAssignment_02_02() {
+        includes.add(new Interval(50, 5000));
+        includes.add(new Interval(10, 100));
+
+        List<Interval> actual = intervalService.removeExcludeIntervals(includes, new ArrayList<>());
+
+        List<Interval> expected = new ArrayList<>();
+        expected.add(new Interval(10, 5000));
+
+        Assert.assertEquals(expected.size(), actual.size());
+        Assert.assertEquals(expected.get(0).getStartValue(), actual.get(0).getStartValue());
+        Assert.assertEquals(expected.get(0).getEndValue(), actual.get(0).getEndValue());
+    }
+
+    @Test
+    void removeExcludeIntervals_testCaseGivenWithAssignment_03() {
+        includes.add(new Interval(200, 300));
+        includes.add(new Interval(50, 150));
+
+        excludes.add(new Interval(95, 205));
+
+        List<Interval> actual = intervalService.removeExcludeIntervals(includes, excludes);
+
+        List<Interval> expected = new ArrayList<>();
+        expected.add(new Interval(50, 94));
+        expected.add(new Interval(206, 300));
+
+        Assert.assertEquals(expected.size(), actual.size());
+        Assert.assertEquals(expected.get(0).getStartValue(), actual.get(0).getStartValue());
+        Assert.assertEquals(expected.get(0).getEndValue(), actual.get(0).getEndValue());
+    }
+
+    @Test
+    void removeExcludeIntervals_testCaseGivenWithAssignment_04() {
+        includes.add(new Interval(200, 300));
+        includes.add(new Interval(10, 100));
+        includes.add(new Interval(400, 500));
+
+        excludes.add(new Interval(410, 420));
+        excludes.add(new Interval(95, 205));
+        excludes.add(new Interval(100, 150));
+
+        List<Interval> actual = intervalService.removeExcludeIntervals(includes, excludes);
+
+        List<Interval> expected = new ArrayList<>();
+        expected.add(new Interval(10, 94));
+        expected.add(new Interval(206, 300));
+        expected.add(new Interval(400, 409));
+        expected.add(new Interval(421, 500));
+
+        Assert.assertEquals(expected.size(), actual.size());
+        Assert.assertEquals(expected.get(0).getStartValue(), actual.get(0).getStartValue());
+        Assert.assertEquals(expected.get(0).getEndValue(), actual.get(0).getEndValue());
+    }
 }

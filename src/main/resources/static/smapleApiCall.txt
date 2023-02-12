@@ -1,0 +1,15 @@
+http://localhost:8181/app/api/v1/interval/
+{
+  "includes": [
+    {
+      "startValue": 0,
+      "endValue": 0
+    }
+  ],
+  "excludes": [
+    {
+      "startValue": 0,
+      "endValue": 0
+    }
+  ]
+}
