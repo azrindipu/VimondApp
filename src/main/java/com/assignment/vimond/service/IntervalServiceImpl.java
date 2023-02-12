@@ -19,21 +19,21 @@ public class IntervalServiceImpl implements IntervalService {
         if (includes == null || includes.isEmpty()) return result;
         if (excludes == null || excludes.isEmpty()) return includes;
 
+        Collections.sort(includes, new SortByStartValueComparator());
+        Collections.sort(excludes, new SortByStartValueComparator());
+
         includes = Utils.removeInvalidAndDuplicateIntervals(includes);
         excludes = Utils.removeInvalidAndDuplicateIntervals(excludes);
 
         includes = Utils.removeOverlapIntervals(includes);
         excludes = Utils.removeOverlapIntervals(excludes);
 
-        Collections.sort(includes, new SortByStartValueComparator());
-        Collections.sort(excludes, new SortByStartValueComparator());
-
         int includeIndexTracker = 0;
         int excludeIndexTracker = 0;
         while (includeIndexTracker < includes.size() && excludeIndexTracker < excludes.size()) {
             /*
             when exclude belongs to left side fully.
-            Example: includes: [10, 30] and excludes: [5 9]
+            Example: includes: [10 30] and excludes: [5 9]
              */
             if (excludes.get(excludeIndexTracker).getEndValue() < includes.get(includeIndexTracker).getStartValue()) {
                 excludeIndexTracker++;
@@ -41,7 +41,7 @@ public class IntervalServiceImpl implements IntervalService {
 
             /*
             when exclude belongs to right side fully.
-            Example: includes: [10, 30] and excludes: [31 35]
+            Example: includes: [10 30] and excludes: [31 35]
             */
             else if (excludes.get(excludeIndexTracker).getStartValue() > includes.get(includeIndexTracker).getEndValue()) {
                 result.add(includes.get(includeIndexTracker));
@@ -49,16 +49,16 @@ public class IntervalServiceImpl implements IntervalService {
             }
             /*
             when include and exclude overlaps.
-            Example: includes: [10, 30] and excludes: [15 35]
-            Example: includes: [10, 30] and excludes: [5 15]
-            Example: includes: [10, 30] and excludes: [20 25]
-            Example: includes: [10, 30] and excludes: [10 30]
-            Example: includes: [10, 30] and excludes: [5 35]
+            Example: includes: [10 30] and excludes: [15 35]
+            Example: includes: [10 30] and excludes: [5 15]
+            Example: includes: [10 30] and excludes: [20 25]
+            Example: includes: [10 30] and excludes: [10 30]
+            Example: includes: [10 30] and excludes: [5 35]
             */
             else {
                 /*
                 When we can take the left portion of the include interval
-                Example: includes: [10, 30] and excludes: [15 35]
+                Example: includes: [10 30] and excludes: [15 35]
                 */
                 if (excludes.get(excludeIndexTracker).getStartValue() > includes.get(includeIndexTracker).getStartValue()) {
                     result.add(new Interval(includes.get(includeIndexTracker).getStartValue(),
@@ -66,8 +66,8 @@ public class IntervalServiceImpl implements IntervalService {
                 }
                 /*
                 When include end value is larger then exclude end value.
-                Example: includes: [10, 30] and excludes: [5 15]
-                Example: includes: [10, 30] and excludes: [20 25]
+                Example: includes: [10 30] and excludes: [5 15]
+                Example: includes: [10 30] and excludes: [20 25]
                 */
                 if (includes.get(includeIndexTracker).getEndValue() > excludes.get(excludeIndexTracker).getEndValue()) {
                     includes.get(includeIndexTracker).setStartValue(excludes.get(excludeIndexTracker).getEndValue() + 1);
@@ -75,7 +75,7 @@ public class IntervalServiceImpl implements IntervalService {
                 } else {
                     /*
                     When include end value and exclude end value are same.
-                    Example: includes: [10, 30] and excludes: [10 30]
+                    Example: includes: [10 30] and excludes: [10 30]
                     */
                     if (includes.get(includeIndexTracker).getEndValue() == excludes.get(excludeIndexTracker).getEndValue()) {
                         includeIndexTracker++;
@@ -83,7 +83,7 @@ public class IntervalServiceImpl implements IntervalService {
                     }
                     /*
                     When exclude end value is larger than exclude end value
-                    Example: includes: [10, 30] and excludes: [5 35]
+                    Example: includes: [10 30] and excludes: [5 35]
                     */
                     else {
                         includeIndexTracker++;
