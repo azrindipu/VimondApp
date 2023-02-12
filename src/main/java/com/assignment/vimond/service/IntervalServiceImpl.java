@@ -22,6 +22,9 @@ public class IntervalServiceImpl implements IntervalService {
         includes = Utils.removeInvalidAndDuplicateIntervals(includes);
         excludes = Utils.removeInvalidAndDuplicateIntervals(excludes);
 
+        includes = Utils.removeOverlapIntervals(includes);
+        excludes = Utils.removeOverlapIntervals(excludes);
+
         Collections.sort(includes, new SortByStartValueComparator());
         Collections.sort(excludes, new SortByStartValueComparator());
 

@@ -20,4 +20,20 @@ public class Utils {
         }
         return new ArrayList<>(validAndUniqueIntervals);
     }
+
+    public static List<Interval> removeOverlapIntervals(List<Interval> intervals){
+        List<Interval> result = new ArrayList<>();
+        result.add(intervals.get(0));
+        for(int i=1; i<intervals.size(); i++){
+            Interval lastAddedInterval = result.get(result.size()-1);
+            if(lastAddedInterval.getEndValue() >= intervals.get(i).getStartValue()){
+                lastAddedInterval.setEndValue(Math.max(lastAddedInterval.getEndValue(), intervals.get(i).getEndValue()));
+                result.remove(result.size()-1);
+                result.add(lastAddedInterval);
+            }else{
+                result.add(intervals.get(i));
+            }
+        }
+        return result;
+    }
 }
