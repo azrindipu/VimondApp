@@ -1,7 +1,7 @@
 package com.assignment.vimond.controller;
 
-import com.assignment.vimond.dto.IntervalDto;
 import com.assignment.vimond.dto.Interval;
+import com.assignment.vimond.dto.IntervalDto;
 import com.assignment.vimond.service.IntervalServiceImpl;
 import io.swagger.v3.oas.annotations.Parameter;
 import org.json.simple.JSONObject;

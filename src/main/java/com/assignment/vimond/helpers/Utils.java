@@ -30,7 +30,7 @@ public class Utils {
 
     public static List<Interval> removeOverlapIntervals(List<Interval> intervals) {
         List<Interval> result = new ArrayList<>();
-        if(intervals == null || intervals.isEmpty() || intervals.size() == 0) return result;
+        if (intervals == null || intervals.isEmpty() || intervals.size() == 0) return result;
         result.add(intervals.get(0));
         for (int i = 1; i < intervals.size(); i++) {
             Interval lastAddedInterval = result.get(result.size() - 1);
