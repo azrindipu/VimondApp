@@ -9,7 +9,7 @@ sudo visudo
 %YOUR_INVENTORY_USER   ALL=(ALL:ALL) NOPASSWD: ALL
 ```
 
-After successful pipeline execution, you can access the swagger (http://localhost:8280/app/swagger-ui.html). You can check the status of the application using following command in the remote machine.
+After successful pipeline execution, you can access the [swagger](http://localhost:8280/app/swagger-ui.html). You can check the status of the application using following command in the remote machine.
 
 ```
 sudo systemctl status vimond.service
